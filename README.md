@@ -5,7 +5,7 @@
 ### Overview
 Vault audit logs contain the full request/response objects for every interaction with Vault. Audit logs are critically important as they explain **who did what, and when**.
 
-Vault audit logs are not enabled by default. Audit devices must be enabled by a root user using the `vault audit enable` command. 
+Vault audit logs are not enabled by default. Audit devices must be enabled by a root user using the `vault audit enable` command.
 
 It is **highly recommended** that you configure Vault to use multiple audit devices. Audit failures can prevent Vault from servicing requests, so it is important to enable at least two audit devices to prevent [blocking failures](https://developer.hashicorp.com/vault/docs/audit#blocked-audit-devices).
 
@@ -56,3 +56,23 @@ The following items are being captured:
 <br>
 
 <img src="./img/vault-observability.png">
+
+
+### HCP Vault
+HCP Vault requires a [production grade cluster to use audit logs](https://developer.hashicorp.com/hcp/docs/hcp/audit-log).
+
+Create a [standard HCP Vault cluster](https://portal.cloud.hashicorp.com/services/vault/clusters), then follow one of the guides to enable [audit log streaming](https://developer.hashicorp.com/hcp/docs/hcp/audit-log#usage-documentation).
+
+### HCP Vault Usage
+```bash
+# Set HCP Vault environment variables
+$  export VAULT_ADDR="https://example-vault-cluster.40170e59.z1.hashicorp.cloud:8200"
+$  export VAULT_NAMESPACE="admin" #default namespace for HCP Vault
+$  export VAULT_TOKEN="hvs.VaultTokenFromPortal"
+
+# configure vault
+$ ./scripts/setup-hcp.sh
+
+# generate sample events
+$ ./scripts/events-hcp.sh
+```
